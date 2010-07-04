@@ -1,0 +1,127 @@
+#hardstatus on
+#hardstatus alwayslastline '%{ky} %H %{Wb} %n - %t %{kW} %W'
+
+#defscrollback 10000
+
+#nethack on
+
+
+# .screenrc
+# Dave Kaufman 
+# http://davekaufman.net
+#
+# Created: 1 Jul 2002 04:00:00 PM EDT
+# Last Modified: Sat 22 Jan 2005 11:41:18 PM EST
+#
+# This file is used to initialize screen sessions
+
+# Don't use <ctrl>-a for everything - use the ` instead
+#escape ``
+# No annoying audible bell, using "visual bell"
+vbell on               # default: off
+vbell_msg "   -- Ring, Ring!! --   "   # default: "Wuff,Wuff!!"
+
+# Automatically detach on hangup. 
+autodetach on             # default: on
+
+# Don't display the copyright page
+startup_message off           # default: on
+
+# Affects the copying of text regions
+crlf off              # default: off
+
+# Change default scrollback value for new windows
+defscrollback 10000            # default: 100
+
+# Define the time that all windows monitored for silence should 
+# wait before displaying a message. Default 30 seconds.
+#silencewait 15        
+
+# Ensures that the default shell is the same as the value of the $SHELL env variable
+shell -$SHELL
+
+# emulate .logout message
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+
+# Pretty status bar at the bottom.
+hardstatus alwayslastline 
+hardstatus string "%{gk}[ %{G}%H %{g}][%= %{wk}%?%-w%?%{r}(%{W}%n %h %t%?(%u)%?%{r})%{w}%?%+w%?%?%= %{g}][ %m/%d %{W}%c %{g}]"
+
+
+# set these terminals up to be 'optimal' instead of vt100
+termcapinfo xterm*|linux*|rxvt*|Eterm* OP
+
+# Change the xterm initialization string from is2=\E[!p\E[?3;4l\E[4l\E>
+# (This fixes the "Aborted because of window size change" konsole symptoms found
+#  in bug #134198)
+termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+# Enable non-blocking mode to better cope with flaky ssh connections.
+defnonblock 5
+
+
+# Let's remove some dangerous key bindings ...
+bind k
+bind ^k
+bind .
+bind ^\
+bind \\
+bind ^h
+bind h
+
+# ... and make them better.
+bind 'K' kill
+#bind 'I' login on
+#bind 'O' login off
+bind '}' history
+
+# Yet another hack:
+# Prepend/append register [/] to the paste if ^a^] is pressed.
+# This lets me have autoindent mode in vi.
+register [ "\033:se noai\015a"
+register ] "\033:se ai\015a"
+bind ^] paste [.]
+
+
+# Resize the current region. The space will be removed from or added to 
+# the region below or if there's not enough space from the region above.
+bind = resize =
+bind + resize +3
+bind - resize -3
+
+# Time a message is displayed if screen is not disturbed by
+# other activity. The dafault is 5 seconds:
+msgwait 5
+
+# change the default activity message to include a bell.
+activity "Activity in %n ^G"
+
+# Don't you want to start programs which need a DISPLAY ?
+setenv DISPLAY ':0'
+
+# Bind F11 and F12 (NOT F1 and F2) to previous and next screen window
+#bindkey -k k1 select 1
+#bindkey -k k2 select 2
+#bindkey -k k3 select 3
+#bindkey -k k4 select 4
+#bindkey -k k5 select 5
+#bindkey -k k6 select 6
+#bindkey -k k7 select 7
+#bindkey -k k8 select 8
+bindkey -k F1 prev
+bindkey -k F2 next
+bindkey -k k; other
+
+
+# Default Buffers
+screen -t sh 0 bash
+#screen -t sh 1 bash
+#screen -t sh 2 bash
+#screen -t sh 3 bash
+#screen -t sh 4 bash
+#screen -t sh 5 bash
+#screen -t sh 6 bash
+#screen -r sh 7 bash
+#screen -r sh 8 bash
+#screen -r sh 9 bash
+select 0 
